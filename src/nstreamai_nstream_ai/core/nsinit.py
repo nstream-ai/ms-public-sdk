@@ -49,7 +49,6 @@ class NsInit(object):
     
     def connect(self)->NsSocket:
         try:
-            
             result = self.socket.call_rest_endpoint(method="POST",
                                                     route="sign-in", 
                                                     payload={"email":self.username, "password": self.password}

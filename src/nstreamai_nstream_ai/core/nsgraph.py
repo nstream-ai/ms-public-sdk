@@ -11,7 +11,7 @@ from utils.template import (
     create_inference_latency_mutation
     )
 
-class NsGraph(object, ):
+class NsGraph(object):
     def __init__(self, socket:NsSocket) -> None:
         self.graph = list(dict())
         self.socket = socket
@@ -62,7 +62,7 @@ class NsGraph(object, ):
     
     def run_data_out(self, run_time)->None:
         st = time.time()
-        if (time.time() - st)<run_time:
+        while (time.time() - st)<run_time:
             time.sleep(0.1)
             # Generate synthetic data
             data = generate_synthetic_data()
