@@ -11,9 +11,10 @@ class NsProviderType():
 class NsDataObject():
     NsProviderName: str
     NsProviderMeta: Dict
-    def __init__(self, ns_provider_name, ns_provider_meta) -> None:
+    def __init__(self, ns_provider_name, ns_provider_meta, ns_provider_type) -> None:
         self.NsProviderName = ns_provider_name
         self.NsProviderMeta = ns_provider_meta
+        self.NsProviderType = ns_provider_type
         pass
     def get(self):
         return self
@@ -21,7 +22,7 @@ class NsDataObject():
 class NsProvider(object):
     def __init__(self, type:str) -> None:
         self.type = type
-        pass
+        
     def mongodb(self, **kwargs):
         return NsDataObject(ns_provider_meta=kwargs, ns_provider_name="MONGODB", ns_provider_type=self.type)
     def postgresql(self, **kwargs):
@@ -39,14 +40,14 @@ class Nstream(object):
 
 class NsLink(Nstream):
     def __init__(self, 
-                 provider: NsDataObject, 
+                 provider: NsProvider, 
                  prompt_text:Optional[str]=None, 
                  context_tranform_prompt_text: Optional[str]=None
                  ) -> None:
         self.provider = provider
         self.prompt_text = prompt_text
         self.context_prompt_text = context_tranform_prompt_text
-        return super().__init__()
+        return super().__init__(provider=NsDataObject(ns_provider_meta="",ns_provider_name="MONGODB",ns_provider_type=""))
     def define_prompt(self):
         return "{}: \n {}".format(self.prompt_text, self.event)
     def define_context(self):
