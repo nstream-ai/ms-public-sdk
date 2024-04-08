@@ -63,22 +63,21 @@ class NsGraph(object, ):
     def run_data_out(self, run_time)->None:
         st = time.time()
         if time.time() - st<run_time:
-            while True:
-                # Generate synthetic data
-                data = generate_synthetic_data()
-                data["node_id"] = random.choice(self.list_node_id)
-                
-                mutation = create_token_detail_mutation(data["tokens"], data["node_id"])
-                _ = send_graphql_request(url, headers, mutation)
+            # Generate synthetic data
+            data = generate_synthetic_data()
+            data["node_id"] = random.choice(self.list_node_id)
+            
+            mutation = create_token_detail_mutation(data["tokens"], data["node_id"])
+            _ = send_graphql_request(url, headers, mutation)
 
-                mutation = create_io_throughput_mutation(data["node_id"], data["input_throughput"], data["output_throughput"])
-                _ = send_graphql_request(url, headers, mutation)
+            mutation = create_io_throughput_mutation(data["node_id"], data["input_throughput"], data["output_throughput"])
+            _ = send_graphql_request(url, headers, mutation)
 
-                mutation = create_inference_latency_mutation(
-                    data["node_id"],
-                    data["llm_inference_speed"],
-                    data["context_retrieval_speed"],
-                    data["total_node_inference_speed"]
-                )
-                _ = send_graphql_request(url, headers, mutation)
+            mutation = create_inference_latency_mutation(
+                data["node_id"],
+                data["llm_inference_speed"],
+                data["context_retrieval_speed"],
+                data["total_node_inference_speed"]
+            )
+            _ = send_graphql_request(url, headers, mutation)
 
