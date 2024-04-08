@@ -4,7 +4,12 @@ from core.nsinit import NsSocket
 from core.nsnode import NsNode, NsLink
 from utils.variables import generate_synthetic_data, send_graphql_request, url, headers
 import time
-from utils.template import create_token_detail_mutation, create_io_throughput_mutation
+import random
+from utils.template import (
+    create_token_detail_mutation,
+    create_io_throughput_mutation,
+    create_inference_latency_mutation
+    )
 
 class NsGraph(object, ):
     def __init__(self, socket:NsSocket) -> None:
@@ -12,11 +17,13 @@ class NsGraph(object, ):
         self.socket = socket
         self.current_node = None
         self.last_node = None
+        self.list_node_id = []
         pass
 
     def start(self, node:NsNode):
         self.current_node = node
         node.process()
+        self.list_node_id.append(node.node_id)
         return self
     
     def next_node(self,node:NsNode):
@@ -24,6 +31,7 @@ class NsGraph(object, ):
         self.current_node = node
         self.graph.append(self.node_to_dict(self.current_node))
         node.process()
+        self.list_node_id.append(node.node_id)
         return self
     
     def end(self, node:NsNode):
@@ -31,17 +39,19 @@ class NsGraph(object, ):
         self.current_node = node
         self.graph.append(self.node_to_dict(self.current_node))
         node.process()
+        self.list_node_id.append(node.node_id)
         return self
     
     
     def submit(self, sink:NsLink):
         self.graph.append({"sink": sink})
         self.socket.call_grpc_endpoint(method=(lambda x: x))
+        sink.process_sink(self.list_node_id[-1])
         return self
 
     def terminate(self, run_time):
         if run_time:
-            time.sleep(run_time)
+            self.run_data_out(run_time=run_time)
         self.socket.call_grpc_endpoint(method=(lambda x : x))
         return self
 
@@ -56,7 +66,7 @@ class NsGraph(object, ):
             while True:
                 # Generate synthetic data
                 data = generate_synthetic_data()
-                data["node_id"] = self.node_id
+                data["node_id"] = random.choice(self.list_node_id)
                 
                 mutation = create_token_detail_mutation(data["tokens"], data["node_id"])
                 _ = send_graphql_request(url, headers, mutation)

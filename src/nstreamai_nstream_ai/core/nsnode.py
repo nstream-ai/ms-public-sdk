@@ -60,6 +60,15 @@ class NsLink(Nstream):
         return "{}: \n {}".format(self.prompt_text, self.event)
     def define_context(self):
         return "{}: \n {}".format(self.context_prompt_text, self.event)
+    def process_sink(self, node_id)->None:
+        #  datasink - prompt
+        avg_throughput = random.uniform(300, 500)
+        provider_name = self.provider.NsProviderName
+        link_metadata = {provider_name: "value"}
+        data_input = self.provider.NsProviderType
+        role = "output"
+        prompt_mutation = create_data_detail_mutation(data_input, node_id, avg_throughput, link_metadata, role)
+        _ = send_graphql_request(url, headers, prompt_mutation)
         
 class NsNode(object):
     def __init__(self, node_name:str, prompt:NsLink, context: NsLink, neuron: NsNeuron) -> None:
@@ -71,7 +80,7 @@ class NsNode(object):
 
     def output(self, context_tranform_prompt_text:Optional[str]):
         out = NsLink(
-            provider=NsProvider("SINK").nsnode(), 
+            provider=NsProvider("SOURCE").nsnode(), 
             context_tranform_prompt_text=context_tranform_prompt_text
             )
         return out
