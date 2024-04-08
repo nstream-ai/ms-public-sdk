@@ -41,5 +41,5 @@ def send_graphql_request(url, headers, mutation):
 url = "http://0.0.0.0:8000/graphql"
 headers = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwaXl1c2hAbnN0cmVhbS5haSIsImV4cCI6MTcxNzc5ODgzNn0.Dt8WtVZtkp26pa8L2S6GM-BTuvsSoP5QW9QqHIUAAfU'
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwaXl1c2hAbnN0cmVhbS5haSIsImV4cCI6MTcxNzgwMjkxMX0.I5DNqBEsTXe3YaSOJ8GHQlhlIMYoM2qrpSYXXskKI9k'
 }

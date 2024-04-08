@@ -7,7 +7,7 @@ import sys
 
 if __name__ == "__main__":
     try:
-        conn = NsInit(api_key="QOOAZGI8ZEQ", username="piyush@nstream.ai", password="nstream.cloud").connect()
+        conn = NsInit(api_key="ZYH22QSTVX4", username="piyush@nstream.ai", password="nstream.cloud").connect()
     except Exception as e:
         print(e)
         sys.exit()
@@ -38,4 +38,4 @@ if __name__ == "__main__":
 
     ns_graph = NsGraph(conn).start(ns_node_1).end(ns_node_2).submit(ns_graph_sink)
     
-    ns_graph.terminate(run_time=0.3)
+    ns_graph.terminate(run_time=3)
