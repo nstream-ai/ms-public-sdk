@@ -86,8 +86,8 @@ class NsNode(object):
         return out
     
     def process(self)->None:
-        prompt_size = random.uniform(20, 80)
-        context_size = random.uniform(70, 120)
+        prompt_size = random.randint(20, 80)
+        context_size = random.randint(70, 120)
         total_data_processed = random.randint(5, 20)
         node_mutation = create_node_detail_mutation(
             self.node_name,
@@ -101,7 +101,7 @@ class NsNode(object):
         
 
         #  datasource - prompt
-        avg_throughput = random.uniform(300, 500)
+        avg_throughput = random.randint(300, 500)
         provider_name = self.prompt.provider.NsProviderName
         link_metadata = {provider_name: "value"}
         data_input = self.prompt.provider.NsProviderType
@@ -110,7 +110,7 @@ class NsNode(object):
         response = send_graphql_request(url, headers, prompt_mutation)
 
         #  datasource - context
-        avg_throughput = random.uniform(300, 500)
+        avg_throughput = random.randint(300, 500)
         provider_name = self.context.provider.NsProviderName
         link_metadata = {provider_name: "value"}
         data_input = self.context.provider.NsProviderType
