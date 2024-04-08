@@ -1,5 +1,12 @@
 from typing import List, Dict, Optional #LiteralString
 from core.nsneuron import NsNeuron
+from utils.template import (
+    create_node_detail_mutation,
+    create_data_detail_mutation
+)
+import random
+import json
+from utils.variables import send_graphql_request, url, headers
 
 class NsProviderType():
     Sink: str
@@ -11,6 +18,7 @@ class NsProviderType():
 class NsDataObject():
     NsProviderName: str
     NsProviderMeta: Dict
+    NsProviderType: str
     def __init__(self, ns_provider_name, ns_provider_meta, ns_provider_type) -> None:
         self.NsProviderName = ns_provider_name
         self.NsProviderMeta = ns_provider_meta
@@ -54,7 +62,8 @@ class NsLink(Nstream):
         return "{}: \n {}".format(self.context_prompt_text, self.event)
         
 class NsNode(object):
-    def __init__(self, prompt:NsLink, context: NsLink, neuron: NsNeuron) -> None:
+    def __init__(self, node_name:str, prompt:NsLink, context: NsLink, neuron: NsNeuron) -> None:
+        self.node_name = node_name
         self.prompt = prompt
         self.context = context
         self.neuron = neuron
@@ -65,5 +74,40 @@ class NsNode(object):
             provider=NsProvider("SINK").nsnode(), 
             context_tranform_prompt_text=context_tranform_prompt_text
             )
-        # print(out.__dict__,"++++++))))))))))))))))))))))))))))")
         return out
+    
+    def process(self)->None:
+        prompt_size = random.uniform(20, 80)
+        context_size = random.uniform(70, 120)
+        total_data_processed = random.randint(5, 20)
+        node_mutation = create_node_detail_mutation(
+            self.node_name,
+            context_size,
+            prompt_size,
+            total_data_processed,
+            self.neuron.llm
+            )
+        response = send_graphql_request(url, headers, node_mutation)
+        self.node_id = json.loads(response.text).get("data").get("createNodeDetail").get("id")
+        
+
+        #  datasource - prompt
+        avg_throughput = random.uniform(300, 500)
+        provider_name = self.prompt.provider.NsProviderName
+        link_metadata = {provider_name: "value"}
+        data_input = self.prompt.provider.NsProviderType
+        role = "prompt"
+        prompt_mutation = create_data_detail_mutation(data_input, self.node_id, avg_throughput, link_metadata, role)
+        response = send_graphql_request(url, headers, prompt_mutation)
+
+        #  datasource - context
+        avg_throughput = random.uniform(300, 500)
+        provider_name = self.context.provider.NsProviderName
+        link_metadata = {provider_name: "value"}
+        data_input = self.context.provider.NsProviderType
+        role = "context"
+        context_mutation = create_data_detail_mutation(data_input, self.node_id, avg_throughput, link_metadata, role)
+        response = send_graphql_request(url, headers, context_mutation)
+
+        return None
+
