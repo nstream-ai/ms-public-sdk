@@ -50,4 +50,4 @@ if __name__ == "__main__":
 
     
 
-    # ns_graph.terminate()
+    ns_graph.terminate(run_time=2)

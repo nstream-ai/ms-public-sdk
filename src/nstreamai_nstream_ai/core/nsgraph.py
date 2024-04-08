@@ -3,7 +3,8 @@ from types import FunctionType
 from core.nsinit import NsSocket
 from core.nsnode import NsNode, NsLink
 import httpx
-import json 
+import json
+import time
 
 class NsGraph(object):
     def __init__(self, socket:NsSocket) -> None:
@@ -35,7 +36,9 @@ class NsGraph(object):
         self.socket.call_grpc_endpoint(method=(lambda x: x))
         return self
 
-    def terminate(self):
+    def terminate(self, run_time):
+        if run_time:
+            time.sleep(run_time)
         self.socket.call_grpc_endpoint(method=(lambda x : x))
         return self
 
