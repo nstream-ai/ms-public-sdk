@@ -14,7 +14,22 @@ if __name__ == "__main__":
         context=NsLink(provider=NsProvider(type="SINK").postgresql(), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"), 
         neuron=NsNeuron(NstreamLLM.mistral_7b()))
     
+
+    ns_node_2 = NsNode(
+        prompt=NsLink(provider=NsProvider(type="SINK").mongodb(), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"),
+        context=NsLink(provider=NsProvider(type="SINK").nsnode(ns_node_1.output()), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"), 
+        neuron=NsNeuron(NstreamLLM.llama2_7b()))
+
+    # ns_node_3 = NsNode(
+    #     prompt=NsLink(provider=NsProvider(type="SINK").nsnode(ns_node_2.output()), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"),
+    #     context=NsLink(provider=NsProvider(type="SINK").postgresql(), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"), 
+    #     neuron=NsNeuron(NstreamLLM.llama2_7b()))
     
+    # ns_graph_sink = NsLink(
+    #     provider=NsProvider(type="SINK").terminal(), 
+    #     )
+
+
     # ns_node_2 = NsNode(prompt=NsLink(), context=ns_node_1.output(), neuron=NsNeuron(NstreamLLM.mistral_7b()))
     # ns_node_3 = NsNode(prompt=ns_node_2.output(), context=NsLink(), neuron=NsNeuron(NstreamLLM.mistral_7b()))
 

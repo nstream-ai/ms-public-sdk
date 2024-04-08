@@ -1,4 +1,4 @@
-from typing import List, Dict, Optional, LiteralString
+from typing import List, Dict, Optional #LiteralString
 from core.nsneuron import NsNeuron
 
 class NsProviderType():
@@ -33,7 +33,7 @@ class NsProvider(object):
         return NsDataObject(ns_provider_meta=kwargs, ns_provider_name="NODE", ns_provider_type=self.type)
 
 class Nstream(object):
-    def __init__(self, provider:NsDataObject) -> None:
+    def __init__(self, provider:NsProvider) -> None:
         self.provider = provider
         self.event = "EVENT"
         pass
@@ -47,7 +47,7 @@ class NsLink(Nstream):
         self.provider = provider
         self.prompt_text = prompt_text
         self.context_prompt_text = context_tranform_prompt_text
-        return super().__init__(provider=NsDataObject(ns_provider_meta="",ns_provider_name="MONGODB",ns_provider_type=""))
+        return super().__init__(provider=self.provider)
     def define_prompt(self):
         return "{}: \n {}".format(self.prompt_text, self.event)
     def define_context(self):
@@ -56,7 +56,7 @@ class NsLink(Nstream):
 class NsNodeOutput(Nstream):
     def __init__(self) -> None:
         self.provider = NsProvider("SINK").nsnode()
-        return super().__init__()
+        return super().__init__(provider=self.provider)
         
 class NsNode(object):
     def __init__(self, prompt:NsLink|NsNodeOutput, context: NsLink|NsNodeOutput, neuron: NsNeuron) -> None:
@@ -67,4 +67,5 @@ class NsNode(object):
 
     def output(self):
         out = NsNodeOutput()
+        print(out.__dict__,"++++++))))))))))))))))))))))))))))")
         return out
