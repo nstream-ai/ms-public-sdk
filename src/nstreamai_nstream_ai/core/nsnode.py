@@ -52,20 +52,19 @@ class NsLink(Nstream):
         return "{}: \n {}".format(self.prompt_text, self.event)
     def define_context(self):
         return "{}: \n {}".format(self.context_prompt_text, self.event)
-
-class NsNodeOutput(Nstream):
-    def __init__(self) -> None:
-        self.provider = NsProvider("SINK").nsnode()
-        return super().__init__(provider=self.provider)
         
 class NsNode(object):
-    def __init__(self, prompt:NsLink|NsNodeOutput, context: NsLink|NsNodeOutput, neuron: NsNeuron) -> None:
+    def __init__(self, prompt:NsLink, context: NsLink, neuron: NsNeuron) -> None:
         self.prompt = prompt
         self.context = context
         self.neuron = neuron
         pass
 
-    def output(self):
-        out = NsNodeOutput()
-        print(out.__dict__,"++++++))))))))))))))))))))))))))))")
+    def output(self, prompt_text:Optional[str], context_tranform_prompt_text:Optional[str]):
+        out = NsLink(
+            provider=NsProvider("SINK").nsnode(), 
+            prompt_text=prompt_text, 
+            context_tranform_prompt_text=context_tranform_prompt_text
+            )
+        # print(out.__dict__,"++++++))))))))))))))))))))))))))))")
         return out
