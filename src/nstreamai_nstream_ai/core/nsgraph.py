@@ -1,7 +1,7 @@
 from typing import List, Dict, Optional
 from types import FunctionType
 from core.nsinit import NsSocket
-from core.nsnode import NsNode
+from core.nsnode import NsNode, NsLink
 import httpx
 import json 
 
