@@ -22,11 +22,9 @@ class NsSocket(object):
     def call_rest_endpoint(self, payload: Optional[Dict], headers:Optional[Dict]=None, params: Optional[Dict]=None, method: str="GET", route: str="/"):
         endpoint = "{0}/{1}".format(self.api_server, route)
         if method=="GET":
-            print("inside get")
             response = self.http_client.get(headers=headers, url=endpoint, params=params)
-            print(response.json())
         elif method=="POST":
-            response = self.http_client.post(headers=headers, url=endpoint, data=payload)
+            response = self.http_client.post(headers=headers, url=endpoint, json=payload)
         elif method=="PUT":
             response = self.http_client.put(headers=headers, url=endpoint, data=payload)
         elif method=="DELETE":
@@ -39,11 +37,11 @@ class NsSocket(object):
         self.http_client.close()
 
 class NsInit(object):
-    def __init__(self, api_key="") -> None:
+    def __init__(self, api_key="", username="", password="") -> None:
         welcome()
         self.api_key = api_key
-        self.username = "deepak@nstream.ai"
-        self.password = "nstream.cloud"
+        self.username = username
+        self.password =password
         self.headers = {}
         self.socket = NsSocket()
         self.params = {}
@@ -54,19 +52,14 @@ class NsInit(object):
             
             result = self.socket.call_rest_endpoint(method="POST",
                                                     route="sign-in", 
-                                                    payload='{"email": "deepak@nstream.ai", "password": "nstream.cloud"}'
+                                                    payload={"email":self.username, "password": self.password}
                                                     )
             oauth_token = result.json().get("access_token")
             self.headers["Authorization"] = "Bearer {0}".format(oauth_token)
             logger.debug(msg="Authorization Token Recieved")
-            result = self.socket.call_rest_endpoint(
-                headers=self.headers,
-                payload = {},
-                # params=self.params,
-                route="get-api-key/{}".format(self.api_key)
-                )
-            api_secret = json.loads(result.json()).get("api_secret")
-
+            result = self.socket.call_rest_endpoint(headers=self.headers, payload = {},route="get-api-key/{}".format(self.api_key))
+            result = result.json()
+            api_secret = result.get("api_secret")
             if api_secret:
                 logger.debug(msg="API Key approved")
                 return self.socket
@@ -74,7 +67,7 @@ class NsInit(object):
                 logger.error(msg="API Key {0} Invalid, please check if API Key exists".format(self.api_key))
                 raise Exception("API Does not exist")
         except Exception as e: 
-            logger.error(msg=e)
+            logger.exception(msg=e)
             raise Exception("Unknown Exception Occured - {0} ".format(e))
         
         
