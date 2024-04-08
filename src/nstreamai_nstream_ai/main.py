@@ -15,20 +15,20 @@ if __name__ == "__main__":
         node_name="GraphNode1",
         prompt=NsLink(
             provider=NsProvider(type=NsProviderType().Source).mongodb(), 
-            prompt_text="Hi my name is deepak"),
+            prompt_text="list all the illegal messages related to bank account"),
         context=NsLink(
             provider=NsProvider(type=NsProviderType().Source).postgresql(), 
-            context_tranform_prompt_text="Deepak is lover boy"), 
+            context_tranform_prompt_text="fetch all the bank details from the messages"), 
         neuron=NsNeuron(NstreamLLM.mistral_7b())
         )
-    # ns_node_1.process()
+
     ns_node_2 = NsNode(
         node_name="GraphNode2",
         prompt=NsLink(
             provider=NsProvider(type=NsProviderType().Source).mongodb(), 
-            prompt_text="Hi my name is deepak", 
+            prompt_text="what is the name of user", 
             ),
-        context=ns_node_1.output(context_tranform_prompt_text="What is my name"),
+        context=ns_node_1.output(context_tranform_prompt_text="process name and address"),
         neuron=NsNeuron(NstreamLLM.llama2_7b())
     )
 
@@ -38,19 +38,4 @@ if __name__ == "__main__":
 
     ns_graph = NsGraph(conn).start(ns_node_1).end(ns_node_2).submit(ns_graph_sink)
     
-    # ns_node_3 = NsNode(
-    #     prompt=NsLink(provider=NsProvider(type="SINK").nsnode(ns_node_2.output()), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"),
-    #     context=NsLink(provider=NsProvider(type="SINK").postgresql(), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"), 
-    #     neuron=NsNeuron(NstreamLLM.llama2_7b()))
-    
-
-
-
-    # ns_node_2 = NsNode(prompt=NsLink(), context=ns_node_1.output(), neuron=NsNeuron(NstreamLLM.mistral_7b()))
-    # ns_node_3 = NsNode(prompt=ns_node_2.output(), context=NsLink(), neuron=NsNeuron(NstreamLLM.mistral_7b()))
-
-    # ns_graph_sink = NsLink()
-
-    
-
     ns_graph.terminate(run_time=0.3)
