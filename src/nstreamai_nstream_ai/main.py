@@ -25,7 +25,7 @@ if __name__ == "__main__":
             provider=NsProvider(type="SINK").mongodb(), 
             prompt_text="Hi my name is deepak", 
             ),
-        context=ns_node_1.output(prompt_text=None, context_tranform_prompt_text="What is my name"),
+        context=ns_node_1.output(context_tranform_prompt_text="What is my name"),
         neuron=NsNeuron(NstreamLLM.llama2_7b())
     )
 

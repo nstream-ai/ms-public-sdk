@@ -60,10 +60,9 @@ class NsNode(object):
         self.neuron = neuron
         pass
 
-    def output(self, prompt_text:Optional[str], context_tranform_prompt_text:Optional[str]):
+    def output(self, context_tranform_prompt_text:Optional[str]):
         out = NsLink(
             provider=NsProvider("SINK").nsnode(), 
-            prompt_text=prompt_text, 
             context_tranform_prompt_text=context_tranform_prompt_text
             )
         # print(out.__dict__,"++++++))))))))))))))))))))))))))))")
