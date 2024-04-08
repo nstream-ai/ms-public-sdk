@@ -14,10 +14,12 @@ if __name__ == "__main__":
         context=NsLink(provider=NsProvider(type="SINK").postgresql(), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"), 
         neuron=NsNeuron(NstreamLLM.mistral_7b()))
     
+    print(ns_node_1.output())
+    
 
     ns_node_2 = NsNode(
         prompt=NsLink(provider=NsProvider(type="SINK").mongodb(), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"),
-        context=NsLink(provider=NsProvider(type="SINK").nsnode(ns_node_1.output()), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"), 
+        context=NsLink(provider=ns_node_1.output(), prompt_text="Hi my name is deepak", context_tranform_prompt_text="Deepak is lover boy"), 
         neuron=NsNeuron(NstreamLLM.llama2_7b()))
 
     # ns_node_3 = NsNode(
