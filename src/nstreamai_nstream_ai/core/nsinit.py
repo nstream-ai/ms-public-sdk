@@ -6,8 +6,6 @@ import json
 from utils.welcome import welcome
 
 
-
-
 class NsSocket(object):
     def __init__(self, grpc_endpoint:str="api.cloud.nstream.ai:50031", api_server_url:str="http://localhost:8000") -> None:
         self.grpc_endpoint = grpc_endpoint
@@ -24,12 +22,14 @@ class NsSocket(object):
     def call_rest_endpoint(self, payload: Optional[Dict], headers:Optional[Dict]=None, params: Optional[Dict]=None, method: str="GET", route: str="/"):
         endpoint = "{0}/{1}".format(self.api_server, route)
         if method=="GET":
+            print("inside get")
             response = self.http_client.get(headers=headers, url=endpoint, params=params)
-        if method=="POST":
+            print(response.json())
+        elif method=="POST":
             response = self.http_client.post(headers=headers, url=endpoint, data=payload)
-        if method=="PUT":
+        elif method=="PUT":
             response = self.http_client.put(headers=headers, url=endpoint, data=payload)
-        if method=="DELETE":
+        elif method=="DELETE":
             response = self.http_client.delete(headers=headers, url=endpoint)
         else:
             response = httpx.Response(status_code=500, content=None, text=json.dumps({"status":"failed", "reason":"No method allowed"}))
@@ -42,26 +42,29 @@ class NsInit(object):
     def __init__(self, api_key="") -> None:
         welcome()
         self.api_key = api_key
+        self.username = "deepak@nstream.ai"
+        self.password = "nstream.cloud"
         self.headers = {}
-        self.username = "user@example.com"
-        self.password = "password123"
         self.socket = NsSocket()
+        self.params = {}
         pass
     
     def connect(self)->NsSocket:
         try:
-            result = self.socket.call_rest_endpoint(method="POST", 
-                                                    route="login", 
-                                                    payload={"email": self.username, "password": self.password}
-                                                    )
             
-            oauth_token = json.loads(result.json()).get("access_token")
+            result = self.socket.call_rest_endpoint(method="POST",
+                                                    route="sign-in", 
+                                                    payload='{"email": "deepak@nstream.ai", "password": "nstream.cloud"}'
+                                                    )
+            oauth_token = result.json().get("access_token")
             self.headers["Authorization"] = "Bearer {0}".format(oauth_token)
             logger.debug(msg="Authorization Token Recieved")
-            result = self.socket.call_rest_endpoint(headers=self.headers, 
-                                                    params=self.params,
-                                                    route="get-api-key/{}".format(self.api_key)
-                                                    )
+            result = self.socket.call_rest_endpoint(
+                headers=self.headers,
+                payload = {},
+                # params=self.params,
+                route="get-api-key/{}".format(self.api_key)
+                )
             api_secret = json.loads(result.json()).get("api_secret")
 
             if api_secret:

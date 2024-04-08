@@ -3,7 +3,7 @@ import sys
 
 if __name__ == "__main__":
     try:
-        conn = NsInit(api_key="JISHDDSJDKSNDNJ").connect()
+        conn = NsInit(api_key="LKIWD_RFOCQ").connect()
     except Exception as e:
         print(e)
         sys.exit()
