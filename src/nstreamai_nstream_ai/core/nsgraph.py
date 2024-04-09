@@ -69,10 +69,10 @@ class NsGraph(object):
             data["node_id"] = random.choice(self.list_node_id)
             
             mutation = create_token_detail_mutation(data["tokens"], data["node_id"])
-            _ = send_graphql_request(url, headers, mutation)
+            _ = send_graphql_request(self.socket.api_server, headers, mutation)
 
             mutation = create_io_throughput_mutation(data["node_id"], data["input_throughput"], data["output_throughput"])
-            _ = send_graphql_request(url, headers, mutation)
+            _ = send_graphql_request(self.socket.api_server, headers, mutation)
 
             mutation = create_inference_latency_mutation(
                 data["node_id"],

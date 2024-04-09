@@ -35,7 +35,6 @@ if __name__ == "__main__":
     ns_graph_sink = NsLink(
         provider=NsProvider(type=NsProviderType().Sink).terminal(), 
     )
-
     ns_graph = NsGraph(conn).start(ns_node_1).end(ns_node_2).submit(ns_graph_sink)
     
-    ns_graph.terminate(run_time=3)
+    ns_graph.terminate(run_time=0.2)

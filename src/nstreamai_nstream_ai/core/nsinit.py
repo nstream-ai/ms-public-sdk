@@ -12,6 +12,7 @@ class NsSocket(object):
         self.http_client = httpx.Client()
         self.api_server = api_server_url
         self.status = False
+        self.headers = {}
         pass
 
     def call_grpc_endpoint(self, method: FunctionType):
@@ -55,6 +56,7 @@ class NsInit(object):
                                                     )
             oauth_token = result.json().get("access_token")
             self.headers["Authorization"] = "Bearer {0}".format(oauth_token)
+            self.socket.headers = self.headers
             logger.debug(msg="Authorization Token Recieved")
             result = self.socket.call_rest_endpoint(headers=self.headers, payload = {},route="get-api-key/{}".format(self.api_key))
             result = result.json()
