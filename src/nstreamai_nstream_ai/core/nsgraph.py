@@ -59,7 +59,7 @@ class NsGraph(object):
     def run_data_out(self, run_time) -> None:
         st = time.time()
         while run_time > 0:
-            time.sleep(0.1)
+            time.sleep(2)
             # Generate synthetic data
             data = generate_synthetic_data()
             data["node_id"] = random.choice(self.list_node_id)
