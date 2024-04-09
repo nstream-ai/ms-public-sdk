@@ -6,6 +6,7 @@ from core.nsinit import NsSocket
 from core.nsnode import NsNode, NsLink
 from utils.variables import generate_synthetic_data, send_graphql_request
 from utils.template import create_token_detail_mutation, create_io_throughput_mutation, create_inference_latency_mutation
+from utils.logger import logger
 
 
 class NsGraph(object):
@@ -16,15 +17,18 @@ class NsGraph(object):
         self.current_node = None
         self.last_node = None
         self.list_node_id = []
+        logger.info("NsGraph initialized")
         pass
 
     def start(self, node: NsNode):
+        logger.info(f"Starting graph with node {node.node_name}")
         self.current_node = node
         node.process()
         self.list_node_id.append(node.node_id)
         return self
 
     def next_node(self, node: NsNode):
+        logger.info(f"Moving to next node {node.node_name}")
         self.last_node = self.current_node
         self.current_node = node
         self.graph.append(self.node_to_dict(self.current_node))
@@ -33,6 +37,7 @@ class NsGraph(object):
         return self
 
     def end(self, node: NsNode):
+        logger.info(f"Ending graph with node {node.node_name}")
         self.last_node = self.current_node
         self.current_node = node
         self.graph.append(self.node_to_dict(self.current_node))
@@ -41,12 +46,14 @@ class NsGraph(object):
         return self
 
     def submit(self, sink: NsLink):
+        logger.info(f"Submitting graph with sink {sink.provider.NsProviderName}")
         self.graph.append({"sink": sink})
         self.socket.call_grpc_endpoint(method=(lambda x: x))
         sink.process_sink(self.list_node_id[-1])
         return self
 
     def terminate(self, run_time):
+        logger.info("Processing graph")
         if run_time:
             self.run_data_out(run_time=run_time)
         self.socket.call_grpc_endpoint(method=(lambda x: x))
@@ -54,12 +61,12 @@ class NsGraph(object):
 
     @staticmethod
     def node_to_dict(node: NsNode) -> Dict:
-        return dict()
+        node_dict = dict()
+        return node_dict
 
     def run_data_out(self, run_time) -> None:
         st = time.time()
         while run_time > 0:
-            time.sleep(2)
             # Generate synthetic data
             data = generate_synthetic_data()
             data["node_id"] = random.choice(self.list_node_id)
@@ -81,5 +88,9 @@ class NsGraph(object):
                 data["total_node_inference_speed"])
             _ = send_graphql_request(self.socket.dashboard_server,
                                      self.socket.headers, mutation)
-
-            run_time -= 0.01
+            sleep_time = 2
+            time.sleep(sleep_time)
+            run_time -= sleep_time
+            logger.info(f"Processing nstream, time remaining: {run_time}")
+        et = time.time()
+        logger.info(f"Completed in {et - st} seconds")

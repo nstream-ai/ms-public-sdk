@@ -48,9 +48,11 @@ def get_logger(name):
 
     return logger
 
+# Define the global logger variable
+logger = get_logger("nstreamai")
+
 # Example usage:
 if __name__ == "__main__":
-    logger = get_logger(__name__)
     logger.debug('This is a debug message')
     logger.info('This is an info message')
     logger.warning('This is a warning message')
