@@ -1,6 +1,8 @@
 import json
 
-def create_node_detail_mutation(name, context_size, prompt_size, total_data_processed, model_name):
+
+def create_node_detail_mutation(name, context_size, prompt_size,
+                                total_data_processed, model_name):
     return f"""
     mutation {{
       createNodeDetail(
@@ -54,7 +56,8 @@ def update_node_detail_mutation(id, name, context_size, prompt_size):
     """
 
 
-def create_data_detail_mutation(type, node_id, avg_throughput, link_metadata, role):
+def create_data_detail_mutation(type, node_id, avg_throughput, link_metadata,
+                                role):
     link_metadata_str = json.dumps(link_metadata).replace('"', '\\"')
     return f"""
     mutation {{
@@ -104,6 +107,7 @@ def create_token_detail_mutation(tokens, node_id):
     }}
     """
 
+
 def update_token_detail_mutation(id, model_name, tokens):
     return f"""
     mutation {{
@@ -127,7 +131,9 @@ def update_token_detail_mutation(id, model_name, tokens):
     }}
     """
 
-def create_io_throughput_mutation(node_id, input_throughput, output_throughput):
+
+def create_io_throughput_mutation(node_id, input_throughput,
+                                  output_throughput):
     return f"""
     mutation {{
       createIoThroughput(
@@ -149,6 +155,7 @@ def create_io_throughput_mutation(node_id, input_throughput, output_throughput):
       }}
     }}
     """
+
 
 def update_io_throughput_mutation(id, input_throughput, output_throughput):
     return f"""
@@ -173,7 +180,10 @@ def update_io_throughput_mutation(id, input_throughput, output_throughput):
     }}
     """
 
-def create_inference_latency_mutation(node_id, llm_inference_speed, context_retrieval_speed, total_node_inference_speed):
+
+def create_inference_latency_mutation(node_id, llm_inference_speed,
+                                      context_retrieval_speed,
+                                      total_node_inference_speed):
     return f"""
     mutation {{
       createInferenceLatency(
@@ -198,7 +208,10 @@ def create_inference_latency_mutation(node_id, llm_inference_speed, context_retr
     }}
     """
 
-def update_inference_latency_mutation(id, llm_inference_speed, context_retrieval_speed, total_node_inference_speed):
+
+def update_inference_latency_mutation(id, llm_inference_speed,
+                                      context_retrieval_speed,
+                                      total_node_inference_speed):
     return f"""
     mutation {{
       updateInferenceLatency(

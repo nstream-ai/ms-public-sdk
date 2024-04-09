@@ -1,16 +1,19 @@
-#########################################
-########################################################
-import requests
 import json
 import random
 import string
+import requests
 
 
 def random_string(length=10):
     return ''.join(random.choices(string.ascii_letters, k=length))
 
+
 def random_json():
-    return json.dumps({random_string(5): random_string(5) for _ in range(random.randint(1, 1))})
+    return json.dumps({
+        random_string(5): random_string(5)
+        for _ in range(random.randint(1, 1))
+    })
+
 
 def generate_synthetic_data():
     tokens = random.randint(50, 500)
@@ -18,7 +21,8 @@ def generate_synthetic_data():
     output_throughput = random.randint(50, 1000)
     llm_inference_speed = random.randint(10, 5000)
     context_retrieval_speed = random.randint(10, 5000)
-    total_node_inference_speed = llm_inference_speed + context_retrieval_speed + random.randint(10, 100)
+    total_node_inference_speed = llm_inference_speed + context_retrieval_speed + random.randint(
+        10, 100)
 
     return {
         "tokens": tokens,
@@ -34,9 +38,3 @@ def send_graphql_request(url, headers, mutation):
     payload = json.dumps({"query": mutation})
     response = requests.post(url, headers=headers, data=payload)
     return response
-
-url = "http://0.0.0.0:8000/graphql"
-headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwaXl1c2hAbnN0cmVhbS5haSIsImV4cCI6MTcxNzgwMjkxMX0.I5DNqBEsTXe3YaSOJ8GHQlhlIMYoM2qrpSYXXskKI9k'
-}
