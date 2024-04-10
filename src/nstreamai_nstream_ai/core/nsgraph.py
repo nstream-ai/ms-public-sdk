@@ -1,13 +1,12 @@
 import time
 import random
 from typing import Dict
-import concurrent.futures
 from core.nsinit import NsSocket
 from core.nsnode import NsNode, NsLink
 from utils.variables import generate_synthetic_data, send_graphql_request
 from utils.template import create_token_detail_mutation, create_io_throughput_mutation, create_inference_latency_mutation
 from utils.logger import logger
-
+import json
 
 class NsGraph(object):
 
@@ -56,6 +55,8 @@ class NsGraph(object):
         logger.info("Processing graph")
         if run_time:
             self.run_data_out(run_time=run_time)
+            payload = json.dumps([int(i) for i in self.list_node_id])
+            _ = self.socket.call_rest_endpoint(method="DELETE", route="nodes", payload=payload)
         self.socket.call_grpc_endpoint(method=(lambda x: x))
         return self
 
