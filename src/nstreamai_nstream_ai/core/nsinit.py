@@ -1,5 +1,6 @@
 import json
 import httpx
+import requests
 from types import FunctionType
 from utils.logger import logger
 from utils.welcome import welcome
@@ -40,7 +41,7 @@ class NsSocket(object):
         elif method == "PUT":
             response = self.http_client.put(headers=self.headers, url=endpoint, data=payload)
         elif method == "DELETE":
-            response = self.http_client.delete(headers=self.headers, url=endpoint)
+            response = requests.request("DELETE", url=endpoint, headers=self.headers, data=payload)
         else:
             response = httpx.Response(status_code=500, content=None, text=json.dumps({"status": "failed", "reason": "No method allowed"}))
             logger.error("Invalid HTTP method: {0}".format(method))
