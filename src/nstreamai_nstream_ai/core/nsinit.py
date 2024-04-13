@@ -11,9 +11,9 @@ class NsSocket(object):
     def __init__(
             self,
             grpc_endpoint: str = "api.cloud.nstream.ai:50031",
-            api_server_url: str = "http://localhost:8000",
+            api_server_url: str = "http://api.nstream.ai",
             headers: dict = {},
-            dashboard_server: str = "http://localhost:8000/graphql") -> None:
+            dashboard_server: str = "http://api.nstream.ai/graphql") -> None:
         self.grpc_endpoint = grpc_endpoint
         self.http_client = httpx.Client()
         self.api_server = api_server_url
@@ -66,6 +66,7 @@ class NsInit(object):
     def connect(self) -> NsSocket:
         try:
             result = self.socket.call_rest_endpoint(method="POST", route="sign-in", payload={"email": self.username, "password": self.password})
+            print(result)
             oauth_token = result.json().get("access_token")
             if oauth_token:
                 self.headers = {"Authorization": "Bearer {0}".format(oauth_token), 'Content-Type': 'application/json'}
