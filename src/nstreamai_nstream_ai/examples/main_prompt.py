@@ -18,8 +18,8 @@ if __name__ == "__main__":
         print(e)
         sys.exit()
 
-    # Define Node 1: Summarize user interactions and generate insights
-    # Create a dynamic prompt using event data for insight generation
+    # Define Node 1: Summarize user interactions
+    # Create the first node to summarize user interactions:
     prompt_event = Nstream.event()
     ns_node_1_prompt_text = f"Generate a general insight using input user's data - {prompt_event}"
 
