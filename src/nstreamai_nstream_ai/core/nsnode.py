@@ -145,6 +145,7 @@ class NsNode(object):
         total_data_processed = random.randint(5, 20)
         node_mutation = create_node_detail_mutation(self.node_name,
                                                     context_size, prompt_size,
+                                                    self.prompt, self.context,
                                                     total_data_processed,
                                                     self.neuron.llm)
         response = send_graphql_request(self.socket.dashboard_server,

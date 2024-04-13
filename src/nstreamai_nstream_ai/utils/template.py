@@ -1,7 +1,7 @@
 import json
 
 
-def create_node_detail_mutation(name, context_size, prompt_size,
+def create_node_detail_mutation(name, context_size, prompt_size, prompt, context,
                                 total_data_processed, model_name):
     return f"""
     mutation {{
@@ -11,6 +11,8 @@ def create_node_detail_mutation(name, context_size, prompt_size,
         promptSize: {prompt_size}
         totalDataProcessed: {total_data_processed}
         neuron: "{model_name}"
+        prompt: "{prompt}"
+        context: "{context}"
       ) {{
         ... on NodeType {{
           id
@@ -31,7 +33,7 @@ def create_node_detail_mutation(name, context_size, prompt_size,
     """
 
 
-def update_node_detail_mutation(id, name, context_size, prompt_size):
+def update_node_detail_mutation(id, name, context_size, prompt_size, prompt, context):
     return f"""
     mutation {{
       updateNodeDetail(
@@ -39,6 +41,8 @@ def update_node_detail_mutation(id, name, context_size, prompt_size):
         name: "{name}"
         contextSize: {context_size}
         promptSize: {prompt_size}
+        prompt: "{prompt}"
+        context: "{context}"
       ) {{
         ... on NodeType {{
           id
