@@ -1,3 +1,5 @@
+![Nstream SDK](/images/mermaid-diagram.svg "Nstream SDK")
+
 ## Quick Start Guide
 ### Using the Nstream SDK for Recommending Promotions
 
