@@ -11,9 +11,9 @@ class NsSocket(object):
     def __init__(
             self,
             grpc_endpoint: str = "api.cloud.nstream.ai:50031",
-            api_server_url: str = "http://api.nstream.ai",
+            api_server_url: str = "http://0.0.0.0:8000",
             headers: dict = {},
-            dashboard_server: str = "http://api.nstream.ai/graphql") -> None:
+            dashboard_server: str = "http://0.0.0.0:8000/graphql") -> None:
         self.grpc_endpoint = grpc_endpoint
         self.http_client = httpx.Client()
         self.api_server = api_server_url
@@ -76,7 +76,7 @@ class NsInit(object):
                 logger.error("Failed to retrieve authorization token")
                 raise Exception("Failed to authenticate")
 
-            result = self.socket.call_rest_endpoint(route="get-api-key/{}".format(self.api_key))
+            result = self.socket.call_rest_endpoint(route="validate-api-key/{}".format(self.api_key))
             result = result.json()
             api_secret = result.get("api_secret")
             if api_secret:
