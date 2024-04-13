@@ -239,3 +239,36 @@ def update_inference_latency_mutation(id, llm_inference_speed,
       }}
     }}
     """
+
+def create_node_message_mutation(message, node_id, key):
+    """
+    Constructs a GraphQL mutation string for creating a node message.
+
+    :param message: str - The message content in JSON format.
+    :param node_id: int - The ID of the node.
+    :param key: int - A unique key associated with the message.
+    :return: str - GraphQL mutation string.
+    """
+    message = json.dumps(message).replace('"', '\\"')
+    print("---------------")
+    return f"""
+    mutation {{
+      createNodeMessage(
+        message: "{message}"
+        nodeId: {node_id}
+        key: {key}
+      ) {{
+        ... on NodeMessage {{
+          id
+          createdOn
+          key
+          message
+        }}
+        ... on ErrorTypeMessage {{
+          __typename
+          messages
+        }}
+      }}
+    }}
+    """
+
