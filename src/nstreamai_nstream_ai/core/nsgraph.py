@@ -7,6 +7,8 @@ from utils.variables import generate_synthetic_data, send_graphql_request
 from utils.template import create_token_detail_mutation, create_io_throughput_mutation, create_inference_latency_mutation
 from utils.logger import logger
 import json
+from utils.output_data import chat_completion
+
 
 class NsGraph(object):
 
@@ -89,6 +91,11 @@ class NsGraph(object):
                 data["total_node_inference_speed"])
             _ = send_graphql_request(self.socket.dashboard_server,
                                      self.socket.headers, mutation)
+            
+            # Example usage
+            chat_output = chat_completion.choices[0].message.content
+            logger.info(f"Generated Output: {chat_output}")
+
             sleep_time = 2
             time.sleep(sleep_time)
             run_time -= sleep_time

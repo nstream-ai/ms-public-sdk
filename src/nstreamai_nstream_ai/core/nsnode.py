@@ -73,6 +73,10 @@ class Nstream(object):
         self.event = "EVENT"
         logger.info("Nstream initialized")
         pass
+    
+    @staticmethod
+    def event()->str:
+        return "$EVENT"
 
 
 class NsLink(Nstream):
@@ -81,11 +85,11 @@ class NsLink(Nstream):
                  provider: NsProvider,
                  socket: NsSocket = None,
                  prompt_text: Optional[str] = None,
-                 context_tranform_prompt_text: Optional[str] = None) -> None:
+                 context_transform_prompt_text: Optional[str] = None) -> None:
         self.socket = socket
         self.provider = provider
         self.prompt_text = prompt_text
-        self.context_prompt_text = context_tranform_prompt_text
+        self.context_prompt_text = context_transform_prompt_text
         logger.info(f"NsLink initialized with provider: {self.provider.NsProviderName}")
         return super().__init__(provider=self.provider)
 
@@ -128,10 +132,10 @@ class NsNode(object):
         self.socket = socket
         logger.info(f"NsNode initialized with name: {node_name}")
 
-    def output(self, context_tranform_prompt_text: Optional[str]):
+    def output(self, context_transform_prompt_text: Optional[str]):
         logger.info("Creating output for NsNode")
         out = NsLink(provider=NsProvider("SOURCE").nsnode(),
-                     context_tranform_prompt_text=context_tranform_prompt_text)
+                     context_transform_prompt_text=context_transform_prompt_text)
         return out
 
     
