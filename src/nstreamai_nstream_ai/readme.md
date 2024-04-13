@@ -24,6 +24,42 @@ from core.nsgraph import NsGraph
 from utils.logger import logger
 import sys
 ```
+## Core Module Imports
+
+### NsInit
+**Import**: `from core.nsinit import NsInit`
+
+**Description**: This import brings in the `NsInit` class responsible for initializing and configuring the connection settings for the Nstream SDK.
+
+**Usage**: It is used to set up the initial connection with the Nstream API using credentials like API key, username, and password.
+
+### NsNode, NsLink, NsProvider, NsProviderType, Nstream
+**Import**: `from core.nsnode import NsNode, NsLink, NsProvider, NsProviderType, Nstream`
+
+**Description**: This import includes multiple classes that are fundamental to constructing nodes within an Nstream pipeline:
+- **NsNode**: Represents a single node in the neural network graph.
+- **NsLink**: Used to define connections between nodes and data sources or sinks.
+- **NsProvider**: Specifies the data source or sink type.
+- **NsProviderType**: Enumerates different types of data providers.
+- **Nstream**: Might be used for additional functionality directly related to stream operations.
+
+**Usage**: These are used to define and link the functional components of a neural network pipeline, such as data inputs, transformations, and outputs.
+
+### NsNeuron, NstreamLLM
+**Import**: `from core.nsneuron import NsNeuron, NstreamLLM`
+
+**Description**: This import involves classes related to the neural network computation units within the SDK:
+- **NsNeuron**: Represents a neuron unit which can execute specific neural network computations or models.
+- **NstreamLLM**: Pertains to specific large language model configurations that can be deployed within neurons.
+
+**Usage**: These are used to specify and configure the large language models that perform the actual analytics and insights generation in the pipeline.
+
+### NsGraph
+**Import**: `from core.nsgraph import NsGraph`
+
+**Description**: Imports the `NsGraph` class, which manages the execution flow of neural network nodes defined with `NsNode`.
+
+**Usage**: This class is crucial for defining the execution order and dependencies between nodes, as well as starting and stopping the data processing workflow.
 
 ### Configuration
 Start by initializing the SDK and connecting to the Nstream service:
