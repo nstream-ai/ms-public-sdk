@@ -250,7 +250,6 @@ def create_node_message_mutation(message, node_id, key):
     :return: str - GraphQL mutation string.
     """
     message = json.dumps(message).replace('"', '\\"')
-    print("---------------")
     return f"""
     mutation {{
       createNodeMessage(
