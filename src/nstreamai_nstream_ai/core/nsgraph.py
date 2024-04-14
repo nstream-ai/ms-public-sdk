@@ -99,15 +99,15 @@ class NsGraph(object):
             
             # Example usage
             message = chat_completion.choices[0].message.content
-            message_dict = {"message": str(message)}
-            print(data["node_id"])
             key = random.randint(1, 10)
-            mutation = create_node_message_mutation(message=message_dict, node_id=int(data["node_id"]), key=key)
-            _ = send_graphql_request(
+            message = json.loads(message)
+            mutation = create_node_message_mutation(message=message, node_id=int(data["node_id"]), key=key)
+            result = send_graphql_request(
                 self.socket.dashboard_server,
                 self.socket.headers,
                 mutation
                 )
+            logger.info(result.json())
             logger.info(f"Pushed Output")
 
             sleep_time = 2
