@@ -249,11 +249,16 @@ def create_node_message_mutation(message, node_id, key):
     :param key: int - A unique key associated with the message.
     :return: str - GraphQL mutation string.
     """
-    message = json.dumps(message).replace('"', '\\"')
+    # Convert the dictionary to a JSON string
+    message_json = json.dumps(message)
+
+    # Manually escape the double quotes for GraphQL
+    message_for_graphql = message_json.replace('"', '\\"')
+    
     return f"""
     mutation {{
       createNodeMessage(
-        message: "{message}"
+        message: "{message_for_graphql}"
         nodeId: {node_id}
         key: {key}
       ) {{
