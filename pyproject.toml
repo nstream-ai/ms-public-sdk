@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nstreamai"
-version = "0.0.2-beta"
+version = "v0.0.2"
 authors = [
   { name = "Nstream AI", email = "hello@nstream.ai" },
 ]
