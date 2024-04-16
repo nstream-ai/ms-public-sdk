@@ -1,5 +1,5 @@
 # ms-public-sdk
-![Nstream SDK](/images/mermaid-diagram.svg "Nstream SDK")
+![Nstream SDK](src/images/mermaid-diagram.svg "Nstream SDK")
 
 ## Quick Start Guide
 ### Using the Nstream SDK for Recommending Promotions
