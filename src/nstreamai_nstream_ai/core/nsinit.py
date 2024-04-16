@@ -11,9 +11,9 @@ class NsSocket(object):
     def __init__(
             self,
             grpc_endpoint: str = "api.cloud.nstream.ai:50031",
-            api_server_url: str = "http://0.0.0.0:8000",
+            api_server_url: str = "https://api.nstream.ai",
             headers: dict = {},
-            dashboard_server: str = "http://0.0.0.0:8000/graphql") -> None:
+            dashboard_server: str = "https://api.nstream.ai/graphql") -> None:
         self.grpc_endpoint = grpc_endpoint
         self.http_client = httpx.Client()
         self.api_server = api_server_url
