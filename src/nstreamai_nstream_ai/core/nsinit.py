@@ -10,7 +10,7 @@ from typing import Dict, Optional
 class NsSocket(object):
     def __init__(
             self,
-            grpc_endpoint: str = "api.cloud.nstream.ai:50031",
+            grpc_endpoint: str = "api.nstream.ai:50031",
             api_server_url: str = "https://api.nstream.ai",
             headers: dict = {},
             dashboard_server: str = "https://api.nstream.ai/graphql") -> None:

@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nstreamai"
-version = "0.0.1"
+version = "0.0.2-beta"
 authors = [
-  { name = "Shiv", email = "shiv@nstream.ai" },
+  { name = "Nstream AI", email = "hello@nstream.ai" },
 ]
 description = "Official SDK for nstream ai stream processing powered by Gen AI"
 readme = "README.md"
