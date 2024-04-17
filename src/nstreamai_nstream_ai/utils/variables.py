@@ -16,11 +16,11 @@ def random_json():
 
 
 def generate_synthetic_data():
-    tokens = random.randint(50, 500)
-    input_throughput = random.randint(50, 1000)
-    output_throughput = random.randint(50, 1000)
-    llm_inference_speed = random.randint(10, 5000)
-    context_retrieval_speed = random.randint(10, 5000)
+    tokens = random.randint(10, 300)
+    input_throughput = random.randint(50, 500)
+    output_throughput = random.randint(50, 500)
+    llm_inference_speed = random.randint(10, 800)
+    context_retrieval_speed = random.randint(10, 300)
     total_node_inference_speed = llm_inference_speed + context_retrieval_speed + random.randint(
         10, 100)
 
