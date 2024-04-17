@@ -76,27 +76,26 @@ class NsGraph(object):
         st = time.time()
         while run_time > 0:
             # Generate synthetic data
-            data = generate_synthetic_data()
-            data["node_id"] = random.choice(self.list_node_id)
+            for node_id in self.list_node_id:
+                data = generate_synthetic_data()
+                mutation = create_token_detail_mutation(data["tokens"],
+                                                        node_id)
+                _ = send_graphql_request(self.socket.dashboard_server,
+                                        self.socket.headers, mutation)
 
-            mutation = create_token_detail_mutation(data["tokens"],
-                                                    data["node_id"])
-            _ = send_graphql_request(self.socket.dashboard_server,
-                                     self.socket.headers, mutation)
+                mutation = create_io_throughput_mutation(node_id,
+                                                        data["input_throughput"],
+                                                        data["output_throughput"])
+                _ = send_graphql_request(self.socket.dashboard_server,
+                                        self.socket.headers, mutation)
 
-            mutation = create_io_throughput_mutation(data["node_id"],
-                                                     data["input_throughput"],
-                                                     data["output_throughput"])
-            _ = send_graphql_request(self.socket.dashboard_server,
-                                     self.socket.headers, mutation)
-
-            mutation = create_inference_latency_mutation(
-                data["node_id"], data["llm_inference_speed"],
-                data["context_retrieval_speed"],
-                data["total_node_inference_speed"])
-            _ = send_graphql_request(self.socket.dashboard_server,
-                                     self.socket.headers, mutation)
-            
+                mutation = create_inference_latency_mutation(
+                    node_id, data["llm_inference_speed"],
+                    data["context_retrieval_speed"],
+                    data["total_node_inference_speed"])
+                _ = send_graphql_request(self.socket.dashboard_server,
+                                        self.socket.headers, mutation)
+                
             # Example usage
             message = generate_openai_data(oauth_token=self.socket.oauth, endpoint=self.socket.api_server).choices[0].message.content
             key = random.randint(1, 10)
