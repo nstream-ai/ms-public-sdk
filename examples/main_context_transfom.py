@@ -1,7 +1,7 @@
-from core.nsinit import NsInit
-from core.nsnode import NsNode, NsLink, NsProvider, NsProviderType, Nstream
-from core.nsneuron import NsNeuron, NstreamLLM
-from core.nsgraph import NsGraph
+from nstream_nstream_ai.core.nsinit import NsInit
+from nstream_nstream_ai.core.nsnode import NsNode, NsLink, NsProvider, NsProviderType, Nstream
+from nstream_nstream_ai.core.nsneuron import NsNeuron, NstreamLLM
+from nstream_nstream_ai.core.nsgraph import NsGraph
 from utils.logger import logger
 import sys
 

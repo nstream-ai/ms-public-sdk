@@ -1,11 +1,11 @@
 import json
 import random
-from core.nsinit import NsSocket
+from ..core.nsinit import NsSocket
 from typing import Dict, Optional
-from core.nsneuron import NsNeuron
-from utils.variables import send_graphql_request
-from utils.template import create_node_detail_mutation, create_data_detail_mutation
-from utils.logger import logger
+from ..core.nsneuron import NsNeuron
+from ..utils.variables import send_graphql_request
+from ..utils.template import create_node_detail_mutation, create_data_detail_mutation
+from ..utils.logger import logger
 
 class NsProviderType():
     Sink: str
