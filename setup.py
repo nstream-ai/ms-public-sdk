@@ -24,7 +24,7 @@ else:
 
 setup(
     name='nstreamai',
-    version='0.0.12',
+    version='0.0.14',
     description='Official SDK for nstream ai stream processing powered by Gen AI',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',

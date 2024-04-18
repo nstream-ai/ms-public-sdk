@@ -70,7 +70,6 @@ class NsInit(object):
         try:
             result = self.socket.call_rest_endpoint(method="POST", route="sign-in", payload={"email": self.username, "password": self.password})
             self.oauth_token = result.json().get("access_token")
-            print(self.oauth_token)
         except Exception as e: 
             print(e)
 

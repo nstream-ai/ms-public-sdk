@@ -1,8 +1,8 @@
-from nstream_nstream_ai.core.nsinit import NsInit
-from nstream_nstream_ai.core.nsnode import NsNode, NsLink, NsProvider, NsProviderType, Nstream
-from nstream_nstream_ai.core.nsneuron import NsNeuron, NstreamLLM
-from nstream_nstream_ai.core.nsgraph import NsGraph
-from utils.logger import logger
+from nstreamai_nstream_ai.core.nsinit import NsInit
+from nstreamai_nstream_ai.core.nsnode import NsNode, NsLink, NsProvider, NsProviderType, Nstream
+from nstreamai_nstream_ai.core.nsneuron import NsNeuron, NstreamLLM
+from nstreamai_nstream_ai.core.nsgraph import NsGraph
+from nstreamai_nstream_ai.utils.logger import logger
 import sys
 
 if __name__ == "__main__":

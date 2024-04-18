@@ -8,7 +8,7 @@ import sys
 if __name__ == "__main__":
     try:
         logger.info("Starting main execution")
-        conn = NsInit(api_key="FX2QWLX0EPA", username="steve@amazon.com", password="nstreamisawesome").connect()
+        conn = NsInit(api_key="NZ4RPFAF3M0", username="admin@nstream.ai", password="nstream.cloud").connect()
         logger.info("Connected to NsInit")
     except Exception as e:
         logger.exception("Exception occurred while initializing NsInit")
@@ -73,5 +73,4 @@ if __name__ == "__main__":
     ns_graph.terminate(run_time=6)
     logger.info("Graph execution terminated")
 
-    print("Execution Completed")
     logger.info("Main execution completed")

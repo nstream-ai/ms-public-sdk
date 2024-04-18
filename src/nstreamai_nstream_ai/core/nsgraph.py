@@ -100,7 +100,7 @@ class NsGraph(object):
             message = generate_openai_data(oauth_token=self.socket.oauth, endpoint=self.socket.api_server).choices[0].message.content
             key = random.randint(1, 10)
             message = json.loads(message)
-            mutation = create_node_message_mutation(message=message, node_id=int(data["node_id"]), key=key)
+            mutation = create_node_message_mutation(message=message, node_id=int(node_id), key=key)
             result = send_graphql_request(
                 self.socket.dashboard_server,
                 self.socket.headers,

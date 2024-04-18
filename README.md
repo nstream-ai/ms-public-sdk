@@ -223,7 +223,6 @@ if __name__ == "__main__":
     ns_graph.terminate(run_time=6)
     logger.info("Graph execution terminated")
 
-    print("Execution Completed")
     logger.info("Main execution completed")
 ```
 
@@ -269,7 +268,6 @@ Execute the configured pipeline and handle the output:
     logger.info("Graph execution terminated")
 
     # Signal completion of the main execution
-    print("Execution Completed")
     logger.info("Main execution completed")
 ```
 
@@ -332,7 +330,6 @@ if __name__ == "__main__":
     logger.info("Graph execution terminated")
 
     # Signal completion of the main execution
-    print("Execution Completed")
     logger.info("Main execution completed")
 ```
 
@@ -387,6 +384,5 @@ if __name__ == "__main__":
     ns_graph.terminate(run_time=6)
     logger.info("Graph execution terminated")
 
-    print("Execution Completed")
     logger.info("Main execution completed")
 ```
