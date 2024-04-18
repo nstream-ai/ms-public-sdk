@@ -1,5 +1,5 @@
 # ms-public-sdk
-![Nstream SDK](src/images/mermaid-diagram.svg "Nstream SDK")
+![Nstream SDK](images/mermaid-diagram.svg "Nstream SDK")
 
 ## Quick Start Guide
 ### Using the Nstream SDK for Recommending Promotions
@@ -12,7 +12,7 @@ The Nstream SDK is designed for building and managing neural network pipelines t
 To begin using the Nstream SDK in your projects, install it via pip with the following command:
 
 ```bash
-pip install nstream
+pip install nstreamai
 ```
 
 After installation, import the necessary modules and classes as follows:
