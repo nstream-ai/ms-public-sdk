@@ -1,22 +1,28 @@
 import json
 
-def create_node_detail_mutation(name, datasource, datasink):
-    datasource_str = json.dumps(datasource).replace('"', '\\"')
-    datasink_str = json.dumps(datasink).replace('"', '\\"')
+def create_node_detail_mutation(name, context_size, prompt_size, prompt, context,
+                                total_data_processed, model_name):
     return f"""
     mutation {{
       createNodeDetail(
         name: "{name}"
-        datasource: "{datasource_str}"
-        datasink: "{datasink_str}"
+        contextSize: {context_size}
+        promptSize: {prompt_size}
+        totalDataProcessed: {total_data_processed}
+        neuron: "{model_name}"
+        prompt: "{prompt}"
+        context: "{context}"
       ) {{
         ... on NodeType {{
           id
           name
           orgId
           userId
-          datasource
-          datasink
+          contextSize
+          promptSize
+          totalDataProcessed
+          activeSince
+          neuron
         }}
         ... on ErrorType {{
           message
@@ -25,24 +31,24 @@ def create_node_detail_mutation(name, datasource, datasink):
     }}
     """
 
-def update_node_detail_mutation(id, name, datasource, datasink):
-    datasource_str = json.dumps(datasource).replace('"', '\\"')
-    datasink_str = json.dumps(datasink).replace('"', '\\"')
+def update_node_detail_mutation(id, name, context_size, prompt_size, prompt, context):
     return f"""
     mutation {{
       updateNodeDetail(
         id: "{id}"
         name: "{name}"
-        datasource: "{datasource_str}"
-        datasink: "{datasink_str}"
+        contextSize: {context_size}
+        promptSize: {prompt_size}
+        prompt: "{prompt}"
+        context: "{context}"
       ) {{
         ... on NodeType {{
           id
           name
           orgId
           userId
-          datasource
-          datasink
+          contextSize
+          promptSize
         }}
         ... on ErrorType {{
           message
@@ -51,11 +57,40 @@ def update_node_detail_mutation(id, name, datasource, datasink):
     }}
     """
 
-def create_token_detail_mutation(model_name, tokens, node_id):
+
+def create_data_detail_mutation(type, node_id, avg_throughput, link_metadata,
+                                role):
+    link_metadata_str = json.dumps(link_metadata).replace('"', '\\"')
+    return f"""
+    mutation {{
+      createDataDetail(
+        type: "{type}"
+        nodeId: "{node_id}"
+        avgThroughPut: {avg_throughput}
+        linkMetadata: "{link_metadata_str}"
+        role: "{role}"
+      ) {{
+        ... on DataType {{
+          id
+          type
+          orgId
+          userId
+          nodeId
+          avgThroughPut
+          linkMetadata
+        }}
+        ... on ErrorType {{
+          message
+        }}
+      }}
+    }}
+    """
+
+
+def create_token_detail_mutation(tokens, node_id):
     return f"""
     mutation {{
       createTokenDetail(
-        modelName: "{model_name}"
         tokens: {tokens}
         nodeId: {node_id}
       ) {{
@@ -73,7 +108,7 @@ def create_token_detail_mutation(model_name, tokens, node_id):
       }}
     }}
     """
-
+  
 def update_token_detail_mutation(id, model_name, tokens):
     return f"""
     mutation {{
@@ -97,7 +132,8 @@ def update_token_detail_mutation(id, model_name, tokens):
     }}
     """
 
-def create_io_throughput_mutation(node_id, input_throughput, output_throughput):
+def create_io_throughput_mutation(node_id, input_throughput,
+                                  output_throughput):
     return f"""
     mutation {{
       createIoThroughput(
@@ -119,6 +155,7 @@ def create_io_throughput_mutation(node_id, input_throughput, output_throughput):
       }}
     }}
     """
+
 
 def update_io_throughput_mutation(id, input_throughput, output_throughput):
     return f"""
@@ -143,7 +180,9 @@ def update_io_throughput_mutation(id, input_throughput, output_throughput):
     }}
     """
 
-def create_inference_latency_mutation(node_id, llm_inference_speed, context_retrieval_speed, total_node_inference_speed):
+def create_inference_latency_mutation(node_id, llm_inference_speed,
+                                      context_retrieval_speed,
+                                      total_node_inference_speed):
     return f"""
     mutation {{
       createInferenceLatency(
@@ -168,7 +207,9 @@ def create_inference_latency_mutation(node_id, llm_inference_speed, context_retr
     }}
     """
 
-def update_inference_latency_mutation(id, llm_inference_speed, context_retrieval_speed, total_node_inference_speed):
+def update_inference_latency_mutation(id, llm_inference_speed,
+                                      context_retrieval_speed,
+                                      total_node_inference_speed):
     return f"""
     mutation {{
       updateInferenceLatency(
@@ -192,3 +233,40 @@ def update_inference_latency_mutation(id, llm_inference_speed, context_retrieval
       }}
     }}
     """
+
+def create_node_message_mutation(message, node_id, key):
+    """
+    Constructs a GraphQL mutation string for creating a node message.
+
+    :param message: str - The message content in JSON format.
+    :param node_id: int - The ID of the node.
+    :param key: int - A unique key associated with the message.
+    :return: str - GraphQL mutation string.
+    """
+    # Convert the dictionary to a JSON string
+    message_json = json.dumps(message)
+
+    # Manually escape the double quotes for GraphQL
+    message_for_graphql = message_json.replace('"', '\\"')
+    
+    return f"""
+    mutation {{
+      createNodeMessage(
+        message: "{message_for_graphql}"
+        nodeId: {node_id}
+        key: {key}
+      ) {{
+        ... on NodeMessage {{
+          id
+          createdOn
+          key
+          message
+        }}
+        ... on ErrorTypeMessage {{
+          __typename
+          messages
+        }}
+      }}
+    }}
+    """
+

@@ -1,9 +1,5 @@
-from main import (NsGraph, 
-                  NsInit, 
-                  NsLink, 
-                  NsNeuron, 
-                  NsNode, 
-                  NsNodeOutput, 
-                  NsSocket, 
-                  Nstream, 
-                  NstreamLLM)
+from .core import *
+from .utils import *
+
+
+__all__ = ['*']
