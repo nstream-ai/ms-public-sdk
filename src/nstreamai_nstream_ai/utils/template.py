@@ -1,6 +1,5 @@
 import json
 
-
 def create_node_detail_mutation(name, context_size, prompt_size, prompt, context,
                                 total_data_processed, model_name):
     return f"""
@@ -31,7 +30,6 @@ def create_node_detail_mutation(name, context_size, prompt_size, prompt, context
       }}
     }}
     """
-
 
 def update_node_detail_mutation(id, name, context_size, prompt_size, prompt, context):
     return f"""
@@ -110,8 +108,7 @@ def create_token_detail_mutation(tokens, node_id):
       }}
     }}
     """
-
-
+  
 def update_token_detail_mutation(id, model_name, tokens):
     return f"""
     mutation {{
@@ -134,7 +131,6 @@ def update_token_detail_mutation(id, model_name, tokens):
       }}
     }}
     """
-
 
 def create_io_throughput_mutation(node_id, input_throughput,
                                   output_throughput):
@@ -184,7 +180,6 @@ def update_io_throughput_mutation(id, input_throughput, output_throughput):
     }}
     """
 
-
 def create_inference_latency_mutation(node_id, llm_inference_speed,
                                       context_retrieval_speed,
                                       total_node_inference_speed):
@@ -211,7 +206,6 @@ def create_inference_latency_mutation(node_id, llm_inference_speed,
       }}
     }}
     """
-
 
 def update_inference_latency_mutation(id, llm_inference_speed,
                                       context_retrieval_speed,

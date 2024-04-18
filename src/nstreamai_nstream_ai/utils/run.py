@@ -8,10 +8,8 @@ from ..utils.template import (create_node_detail_mutation,
                       create_inference_latency_mutation,
                       create_data_detail_mutation)
 
-
 def random_string(length=10):
     return ''.join(random.choices(string.ascii_letters, k=length))
-
 
 def random_json():
     return json.dumps({
